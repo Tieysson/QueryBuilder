@@ -28,8 +28,10 @@ $produtos = $DB->table('produtos')->select('*')->all();
 // First - retorna o primeiro registro
 $produto = $DB->table('produtos')->select('*')->first();
 
-// Limit - funciona como o LIMIT do mysql, limitará o número de registros retornados, um segundo parametro pode ser passado como offset
+// Limit - funciona como o LIMIT do mysql, limitará o número de registros retornados
 $produtos = $DB->table('produtos')->select('*')->limit(10);
+
+// Um segundo parâmetro pode ser passado como offset
 $produtos = $DB->table('produtos')->select('*')->limit(5, 10);
 
 // Find - para procurar por determinado registros através de sua Primary Key
@@ -37,13 +39,13 @@ $produtos = $DB->table('produtos')->find(1);
 ```
 <br>
 
-<p>Caso o select deva retornar todas as colunas, não é necessário passar o parametro na função, <code>select()</code> e <code>select('*')</code> terão o mesmo efeito. Se não for necessário o retorno de todas as colunas, então há duas formas de indicar as colunas requeridas:</p>
+<p>Caso o select deva retornar todas as colunas, não é necessário passar o parâmetro na função, <code>select()</code> e <code>select('*')</code> terão o mesmo efeito. Se não for necessário o retorno de todas as colunas, então há duas formas de indicar as colunas requeridas:</p>
 
 ```php
 // Tem o mesmo efeito de select('*')
 $produtos = $DB->table('produtos')->select()->all();
 
-// Colunas podem ser indicadas através de uma string única ou de vários parametros
+// Colunas podem ser indicadas através de uma string única ou de vários parâmetros
 $produtos = $DB->table('produtos')->select('id, nome, preco')->all();
 $produtos = $Db->table('produtos')->select('id', 'nome', 'preco')->all();
 ```
@@ -53,10 +55,30 @@ $produtos = $Db->table('produtos')->select('id', 'nome', 'preco')->all();
 ```php
 // Há diversas formas de se criar condições com o where
 
-// Para comparações pode ser usado apenas dois parametros ou especifica-lo
+// Para comparações pode ser usado apenas dois parâmetros ou especifica-lo
 $alimentos = $DB->table('produtos')->select()->where('tipo', 'alimenticio')->all();
 $alimentos = $DB->table('produtos')->select()->where('tipo', '=', 'alimenticio')->all();
 
 // Qualquer operador aritimético suportado pelo mysql pode ser usado 
 $produtos_caros = $DB->table('produtos')->select()->where('preco', '>=', '500')->all();
+$produtos_baratos = $DB->table('produtos)->select()->where('preco', 'BETWEEN', '1', '500')->all();
+```
+
+<p>Se for necessário operações mais complexas, um parâmetro único deve ser passado.</p>
+
+```php
+$alimentos_caros = $DB->table('produtos')->select()->where("tipo = 'alimenticio' and preco >= '500'")->all();
+```
+
+<p>O QueryBuilder tem proteção básica contra ataques de SQL Injection e XSS, ao usar o0 método acima a query estará sujeita a ataques, para escapar strings utilize <code>sanitize()</code></p>
+
+```php
+
+$condicoes = "'' or 1='1'";
+
+$DB->sanitize($condicoes);
+
+echo $condicoes;
+
+// A saída será: \'\' OR 1=\'1\'
 ```
