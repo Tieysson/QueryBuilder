@@ -67,10 +67,10 @@ $produtos_baratos = $DB->table('produtos)->select()->where('preco', 'BETWEEN', '
 <p>Se for necessário operações mais complexas, um parâmetro único deve ser passado.</p>
 
 ```php
-$alimentos_caros = $DB->table('produtos')->select()->where("tipo = 'alimenticio' and preco >= '500'")->all();
+$alimentos = $DB->table('produtos')->select()->where("tipo = 'alimenticio' and preco >= '500'")->all();
 ```
 
-<p>O QueryBuilder tem proteção básica contra ataques de SQL Injection e XSS, ao usar o0 método acima a query estará sujeita a ataques, para escapar strings utilize <code>sanitize()</code></p>
+<p>O QueryBuilder tem proteção básica contra ataques de SQL Injection e XSS, mas ao usar o método acima a query estará sujeita a ataques, para escapar strings utilize <code>sanitize()</code></p>
 
 ```php
 
