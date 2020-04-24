@@ -219,7 +219,7 @@ class QueryBuilder extends PDO
 	*
 	* @return void
 	*/
-	public function sanatize(&$string_to_escape)
+	public function sanitize(&$string_to_escape)
 	{
 		$string_to_escape = trim($string_to_escape);
 		$string_to_escape = htmlspecialchars($string_to_escape);
@@ -309,7 +309,7 @@ class QueryBuilder extends PDO
 	{
 		foreach($update_list as $column => $value)
 		{
-			$this->sanatize($value);
+			$this->sanitize($value);
 
 			$update_field[] = "{$column} = '{$value}'";
 		}
@@ -364,7 +364,7 @@ class QueryBuilder extends PDO
 				$this->set_buffer('where', 'WHERE '.$conditions[0]);
 			}elseif($conditions_counter == 2)
 			{
-				$this->sanatize($conditions[1]);
+				$this->sanitize($conditions[1]);
 
 				$this->set_buffer('where', "WHERE {$conditions[0]} = '{$conditions[1]}'");
 			}elseif($conditions_counter == 3)
@@ -375,24 +375,24 @@ class QueryBuilder extends PDO
 
 					foreach($list as $key => $value)
 					{
-						$this->sanatize($value);
+						$this->sanitize($value);
 						$list[$key] = "'{$value}'";
 					}
 
 					$list = implode(', ', $list);
 
-					$this->sanatize($conditions[0]);
+					$this->sanitize($conditions[0]);
 
 					$this->set_buffer('where', "WHERE {$conditions[0]} IN ({$list})");
 				}else{
-					$this->sanatize($conditions[2]);
+					$this->sanitize($conditions[2]);
 
 					$this->set_buffer('where', "WHERE {$conditions[0]} {$conditions[1]} '{$conditions[2]}'");
 				}
 			}elseif($conditions_counter == 4)
 			{
-				$this->sanatize($conditions[2]);
-				$this->sanatize($conditions[3]);
+				$this->sanitize($conditions[2]);
+				$this->sanitize($conditions[3]);
 
 				$this->set_buffer('where', "WHERE {$conditions[0]} BETWEEN {$conditions[2]} AND {$conditions[3]}");
 			}
@@ -469,7 +469,7 @@ class QueryBuilder extends PDO
 
 		foreach ($insert_values as $key => $value)
 		{
-			$this->sanatize($value);
+			$this->sanitize($value);
 
 			$insert_values[$key] = "'{$value}'";
 		}
@@ -676,7 +676,7 @@ class QueryBuilder extends PDO
 	*/
 	public function paginate($items_per_page, $page = 1)
 	{
-		$this->sanatize($page);
+		$this->sanitize($page);
 		$page = max(1, $page);
 		$offset = ($page-1) * $items_per_page;
 
