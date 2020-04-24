@@ -61,7 +61,7 @@ $alimentos = $DB->table('produtos')->select()->where('tipo', '=', 'alimenticio')
 
 // Qualquer operador aritimético suportado pelo mysql pode ser usado 
 $produtos_caros = $DB->table('produtos')->select()->where('preco', '>=', '500')->all();
-$produtos_baratos = $DB->table('produtos)->select()->where('preco', 'BETWEEN', '1', '500')->all();
+$produtos_baratos = $DB->table('produtos')->select()->where('preco', 'BETWEEN', '1', '500')->all();
 ```
 
 <p>Se for necessário operações mais complexas, um parâmetro único deve ser passado.</p>
