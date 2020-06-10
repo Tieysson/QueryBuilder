@@ -47,7 +47,7 @@ $produtos = $DB->table('produtos')->select()->all();
 
 // Colunas podem ser indicadas através de uma string única ou de vários parâmetros
 $produtos = $DB->table('produtos')->select('id, nome, preco')->all();
-$produtos = $Db->table('produtos')->select('id', 'nome', 'preco')->all();
+$produtos = $DB->table('produtos')->select('id', 'nome', 'preco')->all();
 ```
 <h5>Filtragem de dados</h5>
 <p>Para filtrar quais registros devem ser retornados deve ser acrescentado o método <code>where()</code> na construção da query, nele é possível impor condições ao select.</p>
